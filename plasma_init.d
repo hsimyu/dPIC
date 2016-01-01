@@ -38,9 +38,9 @@ void init_plasma(acc)(Particle!(acc)[] par, ParticleType!(acc)[] ptype, int pnum
         par ~= new Particle!(acc)(r1, r2, r3, r4, r5, r6);
         par[i].pid = (i < pnum/2) ? 1 : 2;
 
-        par[i].write_pos;
-        par[i].write_vel;
-        writeln;
+        // par[i].write_pos;
+        // par[i].write_vel;
+        // writeln;
     }
 }
 
