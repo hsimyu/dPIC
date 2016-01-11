@@ -1,65 +1,6 @@
 module particle;
+import three_d_base;
 import std.stdio;
-
-template threeDBaseImpl(T, string cname, alias x1, alias y1, alias z1){
-    mixin(" void write_" ~ cname ~ "(){ writefln(\"%s:%s, %s, %s\", cname, x1, y1, z1); } ");
-    mixin(" void write_" ~ cname ~ "E(){ writefln(\"%s:%.15e, %.15e, %.15e\", cname, x1, y1, z1); } ");
-    mixin(" string get_type(){ return T.stringof; } ");
-}
-
-class Position(T){
-    T x;
-    T y;
-    T z;
-
-    this(T x0, T y0, T z0){
-        x = x0;
-        y = y0;
-        z = z0;
-    }
-
-    Position opBinary(string op)(Position rhs){
-        static if (op == "+") return new Position(this.x + rhs.x, this.y + rhs.y, this.z + rhs.z);
-        else if (op == "-") return new Position(this.x - rhs.x, this.y - rhs.y, this.z - rhs.z);
-        else static assert(0, "Operator "~op~" not implemented.");
-    }
-
-    Position opBinary(string op)(T rhs){
-        static if (op == "/") return new Position(this.x/rhs, this.y/rhs, this.z/rhs);
-        else static assert(0, "Operator "~op~" not implemented.");
-    }
-
-    Position!(int) castToInt(){
-        return new Position!(int)(cast(int)this.x, cast(int)this.y, cast(int)this.z);
-    }
-
-    mixin threeDBaseImpl!(double, "pos", x, y, z);
-}
-
-class Velocity(T){
-    T vx;
-    T vy;
-    T vz;
-
-    this(T vx1, T vy1, T vz1){
-        vx = vx1;
-        vy = vy1;
-        vz = vz1;
-    }
-
-    Velocity opBinary(string op)(Velocity rhs){
-        static if (op == "+") return new Velocity(this.vx + rhs.vx, this.y + rhs.vy, this.vz + rhs.vz);
-        else if (op == "-") return new Velocity(this.vx - rhs.vx, this.vy - rhs.vy, this.vz - rhs.vz);
-        else static assert(0, "Operator "~op~" not implemented.");
-    }
-
-    Velocity opBinary(string op)(T rhs){
-        static if (op == "/") return new Velocity(this.vx/rhs, this.vy/rhs, this.vz/rhs);
-        else static assert(0, "Operator "~op~" not implemented.");
-    }
-
-    mixin threeDBaseImpl!(double, "vel", vx, vy, vz);
-}
 
 class Particle(T){
     public:
@@ -69,7 +10,7 @@ class Particle(T){
         T vx;
         T vy;
         T vz;
-        int pid;
+        ParticleType!(T)* ptype;
 
         this(){
             x = 0.0;
@@ -87,15 +28,6 @@ class Particle(T){
             vx = vx1;
             vy = vy1;
             vz = vz1;
-        }
-
-        this(Position!(T) pos, Velocity!(T) vel){
-            x = pos.x;
-            y = pos.y;
-            z = pos.z;
-            vx = vel.vx;
-            vy = vel.vy;
-            vz = vel.vz;
         }
 
         void setPosition(T x1, T y1, T z1){
@@ -116,8 +48,12 @@ class Particle(T){
             z = z + vz;
         }
 
-        mixin threeDBaseImpl!(double, "pos", x, y, z);
-        mixin threeDBaseImpl!(double, "vel", vx, vy, vz);
+        void setPtype(ParticleType!(T)* p){
+            ptype = p;
+        }
+
+        mixin threeDBaseImpl!(T, "pos", x, y, z);
+        mixin threeDBaseImpl!(T, "vel", vx, vy, vz);
 }
 
 class ParticleType(T)

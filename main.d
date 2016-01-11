@@ -24,6 +24,7 @@ void main(){
     FieldValue!(acc, "e") efield = new FieldValue!(acc, "e")(nx, ny, nz);
     FieldValue!(acc, "b") bfield = new FieldValue!(acc, "b")(nx, ny, nz);
 
-    init_plasma!(acc)(par, ptype, particle_num);
+    p_init!(acc)(par, ptype, particle_num);
+    grid_init!acc(grids, nx, ny, nz, dx, dy, dz);
     // charge!(acc)(par, efield);
 }

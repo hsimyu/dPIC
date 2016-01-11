@@ -1,12 +1,13 @@
 module plasma_init;
 import physical_const;
 import std.stdio;
+import std.string;
 import local_const;
 import particle;
 import std.random;
 import std.math;
 
-void init_plasma(acc)(Particle!(acc)[] par, ParticleType!(acc)[] ptype, int pnum)
+void p_init(acc)(Particle!(acc)[] par, ParticleType!(acc)[] ptype, int pnum)
 {
     int max_ptype = 2;
     // define particle type
@@ -36,7 +37,7 @@ void init_plasma(acc)(Particle!(acc)[] par, ParticleType!(acc)[] ptype, int pnum
         r6 = gs(5, gen[5]);
 
         par ~= new Particle!(acc)(r1, r2, r3, r4, r5, r6);
-        par[i].pid = (i < pnum/2) ? 1 : 2;
+        par[i].setPtype( (i < pnum/2) ? &ptype[0] : &ptype[1]);
 
         // par[i].write_pos;
         // par[i].write_vel;

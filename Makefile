@@ -1,6 +1,6 @@
-OBJS = local_const.o physical_const.o particle.o grid.o plasma_init.o
+OBJS = local_const.o physical_const.o three_d_base.o particle.o grid.o plasma_init.o
 DD = dmd
-DFLGS = # -w -g -debug=2 -de -boundscheck=on -gx
+DFLGS = # -w -g -gs -gc -de -boundscheck=on -gx
 
 .SUFFIXES: .d .o
 main: main.d $(OBJS)
