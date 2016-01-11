@@ -1,5 +1,6 @@
 module particle;
 import three_d_base;
+import grid;
 import std.stdio;
 
 class Particle(T){
@@ -10,7 +11,8 @@ class Particle(T){
         T vx;
         T vy;
         T vz;
-        ParticleType!(T)* ptype;
+        ParticleType!T* ptype;
+        Grid!T* g;
 
         this(){
             x = 0.0;
@@ -50,6 +52,11 @@ class Particle(T){
 
         void setPtype(ParticleType!(T)* p){
             ptype = p;
+        }
+
+        void setGrid(Grid!T* tg)
+        {
+            g = tg;
         }
 
         mixin threeDBaseImpl!(T, "pos", x, y, z);

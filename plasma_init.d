@@ -7,7 +7,7 @@ import particle;
 import std.random;
 import std.math;
 
-void p_init(acc)(Particle!(acc)[] par, ParticleType!(acc)[] ptype, int pnum)
+void p_init(acc)(ref Particle!(acc)[] par, ref ParticleType!(acc)[] ptype, int pnum)
 {
     int max_ptype = 2;
     // define particle type
